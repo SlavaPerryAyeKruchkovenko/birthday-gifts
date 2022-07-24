@@ -10,16 +10,8 @@ const server = new http.Server(
         try{
             const {request, session} = await micro.json(req)
             const my_response = session.new
-                ? replies.welcome()
-                : {
-                    text: `Выполняю ${request.command}`,
-                    tts: `<speaker audio="alice-music-harp-1.opus">Выполняю ${request.command}`,
-                    buttons: [
-                        { title: 'Записать подарок', hide: true },
-                        { title: 'Посмотреть подарок', hide: true },
-                    ],
-                    end_session: false
-                };
+                ? replies.sendWelcome()
+                : getResponse(request.command)
             return {
                 response: my_response,
                 version: '1.0'
@@ -36,5 +28,20 @@ const server = new http.Server(
         }
     })
 )
+const getResponse = (request)=> {
+    if(checkOnReply(["записать","запиши","запомни","запомнить"],request)){
+        return replies.sendWriteGift()
+    }else{
+        return {
+            text: `что-то пошло не так`,
+            tts: `что-то пошло не так`,
+            end_session: true
+        };
+    }
+}
+const checkOnReply = (keyWords,request)=>{
+    const text = request.toLowerCase()
+    return !(keyWords.find(x=> text.includes(x)) === undefined)
+}
 const PORT = process.env.PORT || 3000
 server.listen(PORT, () => console.log(`Server started on http://localhost:${PORT}, tunnel: http://localhost:4040`))
