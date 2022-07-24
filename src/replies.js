@@ -21,7 +21,7 @@ exports.sendWriteGift = () => {
     const want = getRandomElement(['вы хотите', 'вы желаете', 'вам нужно']);
     return {
         response:{
-            text: `Напишите что вы хотите ${want}`,
+            text: `Напишите что ${want}`,
             tts: `<speaker audio="alice-music-harp-1.opus">Скажите что ${want}`,
             end_session: false
         },
@@ -32,6 +32,7 @@ exports.sendWriteGift = () => {
     }
 }
 exports.writeGift = (request, user_id) =>{
+    //ToDo записать в бд желание пользователя
     const add = getWordEnd(request, "добавлен")
     return {
         response:{
