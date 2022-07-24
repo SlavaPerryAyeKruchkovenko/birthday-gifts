@@ -49,6 +49,24 @@ exports.writeGift = (request, user_id) =>{
         version: '1.0'
     }
 }
+exports.sendGifts = ()=>{
+    //ToDo получение всех подарков из бд
+    const text = getRandomElement(['список желаемых подарков', 'ваш вишлист', 'вы хотите']) + ":";
+    return {
+        response:{
+            text: text,
+            tts: `<speaker audio="alice-music-harp-1.opus">${text}`,
+            buttons: [
+                { title: 'Записать подарок', hide: true },
+            ],
+            end_session: false
+        },
+        user_state_update:{
+            value:0
+        },
+        version: '1.0'
+    }
+}
 exports.sendAnother = ()=>{
     return {
         response:{
@@ -61,8 +79,8 @@ exports.sendAnother = ()=>{
 }
 function getWordEnd(word, reply){
     switch (word[word.length-1]){
-        case "a":
-            return reply + "a"
+        case "а":
+            return reply + "а"
         case "ы":
             return reply + "ы"
         case "и":
