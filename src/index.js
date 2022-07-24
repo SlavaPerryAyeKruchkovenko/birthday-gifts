@@ -1,18 +1,28 @@
 const micro = require('micro');
 const http = require('http');
+const replies = require("./replies")
 
 const server = new http.Server(
     micro(async (req, res) => {
-        return {
-            response: {
-                text: 'Привет',
-                tts: '<speaker audio="alice-music-harp-1.opus">Привет, я ваш голосовой помощник',
+        if (req.method !== 'POST') {
+            return 'Server is running';
+        }
+        const { request, session, state } = await micro.json(req);
+        const sessionState = state && state.session || {};
+        const response = session.new
+            ? replies.welcome()
+            : {
+                text: `${request.command}`,
+                tts: `<speaker audio="alice-music-harp-1.opus">${request.command}`,
                 buttons: [
-                    { title: 'Здравствуй', hide: true },
-                    { title: 'Как дела?', hide: true },
+                    { title: 'Записать подарок', hide: true },
+                    { title: 'Посмотреть подарок', hide: true },
                 ],
                 end_session: false
-            },
+            };
+        return {
+            response,
+            session_state: sessionState,
             version: '1.0'
         };
     })
