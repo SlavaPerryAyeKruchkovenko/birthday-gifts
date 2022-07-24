@@ -5,7 +5,7 @@ const replies = require("./replies")
 const server = new http.Server(
     micro(async (req, res) => {
         if (req.method !== 'POST') {
-            return 'Server is running';
+            return 'Server is running2';
         }
         const { request, session, state } = await micro.json(req);
         const sessionState = state && state.session || {};
