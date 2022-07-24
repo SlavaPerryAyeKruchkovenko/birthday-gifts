@@ -32,7 +32,7 @@ exports.sendWriteGift = () => {
     }
 }
 exports.writeGift = (request, user_id) =>{
-    const add = getWordEnd(request, "обавлен")
+    const add = getWordEnd(request, "добавлен")
     return {
         response:{
             text: `${request} ${add} в список`,
@@ -60,7 +60,7 @@ exports.sendAnother = ()=>{
     }
 }
 function getWordEnd(word, reply){
-    switch (word.slice(-1)){
+    switch (word[word.length-1]){
         case "a":
             return reply + "a"
         case "ы":
