@@ -12,8 +12,8 @@ const server = new http.Server(
         const response = session.new
             ? replies.welcome()
             : {
-                text: `${request.command}`,
-                tts: `<speaker audio="alice-music-harp-1.opus">${request.command}`,
+                text: `hello`,
+                tts: `<speaker audio="alice-music-harp-1.opus">hello`,
                 buttons: [
                     { title: 'Записать подарок', hide: true },
                     { title: 'Посмотреть подарок', hide: true },
