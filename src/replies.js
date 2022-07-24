@@ -31,8 +31,23 @@ exports.sendWriteGift = () => {
         version: '1.0'
     }
 }
-exports.writeGift = () =>{
-
+exports.writeGift = (request, user_id) =>{
+    const add = getWordEnd(request, "обавлен")
+    return {
+        response:{
+            text: `${request} ${add} в список`,
+            tts: `<speaker audio="alice-music-harp-1.opus">${request} ${add} в список`,
+            buttons: [
+                { title: 'Записать подарок', hide: true },
+                { title: 'Посмотреть подарки', hide: true },
+            ],
+            end_session: false
+        },
+        user_state_update:{
+            value:0
+        },
+        version: '1.0'
+    }
 }
 exports.sendAnother = ()=>{
     return {
@@ -42,6 +57,20 @@ exports.sendAnother = ()=>{
             end_session: true
         },
         version: '1.0'
+    }
+}
+function getWordEnd(word, reply){
+    switch (word.slice(-1)){
+        case "a":
+            return reply + "a"
+        case "ы":
+            return reply + "ы"
+        case "и":
+            return reply + "ы"
+        case "о":
+            return reply + "о"
+        default:
+            return reply
     }
 }
 function getRandomElement(arr) {

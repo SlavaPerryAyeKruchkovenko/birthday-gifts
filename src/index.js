@@ -11,7 +11,7 @@ const server = new http.Server(
             const {request, session, state} = await micro.json(req)
             return session.new
                 ? replies.sendWelcome()
-                : getResponse(request.command, state)
+                : getResponse(request.command,session, state)
         }
         catch (e){
             return{
@@ -24,10 +24,13 @@ const server = new http.Server(
         }
     })
 )
-const getResponse = (request, state)=> {
+const getResponse = (request, session, state)=> {
     if(checkOnReply(["записать","запиши","запомни","запомнить"],request)){
         return replies.sendWriteGift()
-    }else{
+    }else if(state.user.value === 1){
+        return replies.writeGift(request, session.user_id)
+    }
+    else{
         return replies.sendAnother()
     }
 }
