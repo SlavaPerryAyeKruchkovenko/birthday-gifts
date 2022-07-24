@@ -9,11 +9,11 @@ const server = new http.Server(
         }
         const { request, session, state } = await micro.json(req);
         const sessionState = state && state.session || {};
-        const response = session.new
+        const my_response = session.new
             ? replies.welcome()
             : {
-                text: `hello`,
-                tts: `<speaker audio="alice-music-harp-1.opus">hello`,
+                text: `hello ${session.user_id}`,
+                tts: `<speaker audio="alice-music-harp-1.opus">hello ${session.user_id}`,
                 buttons: [
                     { title: 'Записать подарок', hide: true },
                     { title: 'Посмотреть подарок', hide: true },
@@ -21,7 +21,7 @@ const server = new http.Server(
                 end_session: false
             };
         return {
-            response,
+            response: my_response,
             session_state: sessionState,
             version: '1.0'
         };
