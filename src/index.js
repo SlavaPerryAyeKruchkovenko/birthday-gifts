@@ -29,8 +29,9 @@ const getResponse = (request, session, state)=> {
         return replies.sendWriteGift()
     }else if(state.user.value === 1){
         return replies.writeGift(request, session.user_id)
-    }
-    else{
+    }else if(checkOnReply(["показать","посмотреть","покажи","посмотри"],request)){
+        return replies.sendGifts()
+    }else{
         return replies.sendAnother()
     }
 }
