@@ -5,7 +5,7 @@ exports.welcome = () => {
     const welcome = getRandomElement(['Привет', 'Здравствуйте', 'Добрый день']);
     return {
         text: `${welcome}, я могу запомнить подарок который вы хотите получить`,
-        tts: `<speaker audio="alice-music-harp-1.opus">${greeting}. Я ваш новый учитель математики. Начинаем урок?`,
+        tts: `<speaker audio="alice-music-harp-1.opus">${welcome}. Я ваш новый учитель математики. Начинаем урок?`,
         buttons: [
             { title: 'Записать подарок', hide: true },
             { title: 'Посмотреть подарок', hide: true },
