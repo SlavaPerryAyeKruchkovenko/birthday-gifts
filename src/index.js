@@ -3,7 +3,13 @@ const http = require('http');
 
 const server = new http.Server(
     micro(async (req, res) => {
-        return 'Running';
+        return {
+            response: {
+                text: 'Привет',
+                end_session: false
+            },
+            version: '1.0'
+        };
     })
 );
 const PORT = process.env.PORT || 3000
