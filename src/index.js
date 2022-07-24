@@ -8,14 +8,10 @@ const server = new http.Server(
             return 'Server is running';
         }
         try{
-            const {request, session} = await micro.json(req)
-            const my_response = session.new
+            const {request, session, state} = await micro.json(req)
+            return session.new
                 ? replies.sendWelcome()
-                : getResponse(request.command)
-            return {
-                response: my_response,
-                version: '1.0'
-            }
+                : getResponse(request.command, state)
         }
         catch (e){
             return{
@@ -28,15 +24,11 @@ const server = new http.Server(
         }
     })
 )
-const getResponse = (request)=> {
+const getResponse = (request, state)=> {
     if(checkOnReply(["записать","запиши","запомни","запомнить"],request)){
         return replies.sendWriteGift()
     }else{
-        return {
-            text: `что-то пошло не так`,
-            tts: `что-то пошло не так`,
-            end_session: true
-        };
+        return replies.sendAnother()
     }
 }
 const checkOnReply = (keyWords,request)=>{
