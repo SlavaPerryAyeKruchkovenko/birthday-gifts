@@ -25,7 +25,7 @@ const server = new http.Server(
         catch (e){
             return{
                 response: {
-                    text: 'Произошла ошибка',
+                    text: `${e}`,
                     end_session: false
                 },
                 version: '1.0'
