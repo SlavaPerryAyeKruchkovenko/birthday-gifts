@@ -1,4 +1,4 @@
-//const gift = require("./Models/gift")
+const gift = require("./Models/gift")
 
 exports.sendWelcome = () => {
     const welcome = getRandomElement(['Привет', 'Здравствуйте', 'Добрый день']);
@@ -32,10 +32,10 @@ exports.sendWriteGift = () => {
 }
 exports.writeGift = async (request, user_id) =>{
     const add = getWordEnd(request, "добавлен")
-    /*await gift.create({
+    await gift.create({
         user_id: user_id,
         gift_name: add
-    })*/
+    })
     return {
         response:{
             text: `${request} ${add} в список`,
@@ -53,16 +53,14 @@ exports.writeGift = async (request, user_id) =>{
     }
 }
 exports.sendGifts = async id=>{
-    /*const gifts = await gift.findAll({
+    const gifts = await gift.findAll({
         where: { user_id: id }
         }
     ).then(()=>{console.log("complete")})
     const text = gifts.length?
         getRandomElement(['список желаемых подарков', 'ваш вишлист', 'вы хотите'])
         + ":" + gifts.map(x=>x.gift_name).join('\n')
-        :"список желаний пусть"*/
-    const text = getRandomElement(['список желаемых подарков', 'ваш вишлист', 'вы хотите'])
-        + ":"
+        :"список желаний пусть"
     return {
         response:{
             text: text,

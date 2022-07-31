@@ -1,17 +1,17 @@
 const micro = require('micro')
 const http = require('http')
 const replies = require("./src/replies")
-//const sequelize = require("./src/database")
-//const gift = require("./src/Models/gift");
+const sequelize = require("./src/database")
+const gift = require("./src/Models/gift");
 
-/*sequelize.sync({ force: true }).then(async ()=>{
+sequelize.sync({ force: true }).then(async ()=>{
     await gift.create({
         user_id: "02",
         gift_name: 'slava'
     }).then(
         ()=> console.log("db is init")
     )
-})*/
+})
 const server = new http.Server(
     micro(async (req, res) => {
         if (req.method !== 'POST') {
