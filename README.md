@@ -1,1 +1,1 @@
-alice function to save gifts of  birthday
+alice function to save birthday's gifts 
