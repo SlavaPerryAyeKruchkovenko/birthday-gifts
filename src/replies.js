@@ -34,7 +34,7 @@ exports.writeGift = async (request, user_id) =>{
     const add = getWordEnd(request, "добавлен")
     await gift.create({
         user_id: user_id,
-        gift_name: add
+        gift_name: request
     })
     return {
         response:{
@@ -56,11 +56,15 @@ exports.sendGifts = async u_id=>{
     const gifts = await gift.findAll({
         where: { user_id: u_id }
         }
-    ).then(async ()=>{(await gift.findAll({attributes: ['gift_name']})).forEach(x=>console.log(x))})
-    const text =
-        getRandomElement(['список желаемых подарков', 'ваш вишлист', 'вы хотите'])
-        + ":" + gifts.map(x=>x.gift_name).join('\n')
-
+    ).then(async()=>{console.log((await gift.findAll()).map(x=>x.gift_name).join('\n'))})
+    let text
+    try{
+        text =
+            getRandomElement(['список желаемых подарков', 'ваш вишлист', 'вы хотите'])
+            + ":" + gifts.map(x=>x.gift_name).join('\n')
+    }catch (e){
+        text = "Ваш список пуст"
+    }
     return {
         response:{
             text: text,
