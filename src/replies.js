@@ -1,12 +1,11 @@
-/**
- * Приветственное сообщение при входе в навык.
- */
+const gift = require("./Models/gift")
+
 exports.sendWelcome = () => {
     const welcome = getRandomElement(['Привет', 'Здравствуйте', 'Добрый день']);
     return {
         response:{
             text: `${welcome}, я могу запомнить подарок который вы хотите получить`,
-            tts: `<speaker audio="alice-music-harp-1.opus">${welcome}. Я ваш новый учитель математики. Начинаем урок?`,
+            tts: `<speaker audio="alice-music-harp-1.opus">${welcome}, я могу запомнить подарок который вы хотите получить`,
             buttons: [
                 { title: 'Записать подарок', hide: true },
                 { title: 'Посмотреть подарки', hide: true },
@@ -31,9 +30,12 @@ exports.sendWriteGift = () => {
         version: '1.0'
     }
 }
-exports.writeGift = (request, user_id) =>{
-    //ToDo записать в бд желание пользователя
+exports.writeGift = async (request, user_id) =>{
     const add = getWordEnd(request, "добавлен")
+    await gift.create({
+        user_id: user_id,
+        gift_name: add
+    })
     return {
         response:{
             text: `${request} ${add} в список`,
@@ -50,9 +52,15 @@ exports.writeGift = (request, user_id) =>{
         version: '1.0'
     }
 }
-exports.sendGifts = ()=>{
-    //ToDo получение всех подарков из бд
-    const text = getRandomElement(['список желаемых подарков', 'ваш вишлист', 'вы хотите']) + ":";
+exports.sendGifts = async id=>{
+    const gifts = await gift.findAll({
+        where: { user_id: id }
+        }
+    ).then(()=>{console.log("complete")})
+    const text = gifts.length?
+        getRandomElement(['список желаемых подарков', 'ваш вишлист', 'вы хотите'])
+        + ":" + gifts.map(x=>x.gift_name).join('\n')
+        :"список желаний пусть"
     return {
         response:{
             text: text,

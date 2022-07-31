@@ -5,7 +5,7 @@ const database = require("./src/database")
 
 const server = new http.Server(
     micro(async (req, res) => {
-        database.sync().then(()=>{console.log("db is ready")})
+        database.sync({ force: true }).then(()=>{console.log("db is ready")})
         if (req.method !== 'POST') {
             return 'Server is running';
         }
@@ -13,7 +13,7 @@ const server = new http.Server(
             const {request, session, state} = await micro.json(req)
             return session.new
                 ? replies.sendWelcome()
-                : getResponse(request.command,session, state)
+                : await getResponse(request.command,session, state)
         }
         catch (e){
             return{
@@ -26,13 +26,13 @@ const server = new http.Server(
         }
     })
 )
-const getResponse = (request, session, state)=> {
+const getResponse = async (request, session, state)=> {
     if(checkOnReply(["записать","запиши","запомни","запомнить"],request)){
         return replies.sendWriteGift()
     }else if(state.user.value === 1){
-        return replies.writeGift(request, session.user.user_id)
+        return await replies.writeGift(request, session.user.user_id)
     }else if(checkOnReply(["показать","посмотреть","покажи","посмотри"],request)){
-        return replies.sendGifts()
+        return await replies.sendGifts(session.user.user_id)
     }else{
         return replies.sendAnother()
     }
