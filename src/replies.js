@@ -52,15 +52,15 @@ exports.writeGift = async (request, user_id) =>{
         version: '1.0'
     }
 }
-exports.sendGifts = async id=>{
+exports.sendGifts = async u_id=>{
     const gifts = await gift.findAll({
-        where: { user_id: id }
+        where: { user_id: u_id }
         }
-    ).then(()=>{console.log("complete")})
-    const text = gifts?
+    ).then(()=>{console.log(u_id)})
+    const text =
         getRandomElement(['список желаемых подарков', 'ваш вишлист', 'вы хотите'])
         + ":" + gifts.map(x=>x.gift_name).join('\n')
-        :"список желаний пусть"
+
     return {
         response:{
             text: text,
