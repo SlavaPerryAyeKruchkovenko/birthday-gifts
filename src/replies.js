@@ -57,7 +57,7 @@ exports.sendGifts = async id=>{
         where: { user_id: id }
         }
     ).then(()=>{console.log("complete")})
-    const text = gifts.length?
+    const text = gifts?
         getRandomElement(['список желаемых подарков', 'ваш вишлист', 'вы хотите'])
         + ":" + gifts.map(x=>x.gift_name).join('\n')
         :"список желаний пусть"
