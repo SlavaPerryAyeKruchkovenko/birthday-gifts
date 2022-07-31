@@ -1,9 +1,11 @@
-const micro = require('micro');
-const http = require('http');
-const replies = require("./replies")
+const micro = require('micro')
+const http = require('http')
+const replies = require("./src/replies")
+const database = require("./src/database")
 
 const server = new http.Server(
     micro(async (req, res) => {
+        database.sync().then(()=>{console.log("db is ready")})
         if (req.method !== 'POST') {
             return 'Server is running';
         }
@@ -28,7 +30,7 @@ const getResponse = (request, session, state)=> {
     if(checkOnReply(["записать","запиши","запомни","запомнить"],request)){
         return replies.sendWriteGift()
     }else if(state.user.value === 1){
-        return replies.writeGift(request, session.user_id)
+        return replies.writeGift(request, session.user.user_id)
     }else if(checkOnReply(["показать","посмотреть","покажи","посмотри"],request)){
         return replies.sendGifts()
     }else{

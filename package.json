@@ -2,7 +2,7 @@
   "name": "birthday-gifts",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "start": "node src/index",
     "dev": "nodemon src/index"
@@ -21,6 +21,8 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
-    "micro": "^9.4.0"
+    "micro": "^9.4.0",
+    "sequelize": "^6.21.3",
+    "sqlite3": "^5.0.2"
   }
 }
