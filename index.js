@@ -10,7 +10,9 @@ const server = new http.Server(
             await gift.create({
                 user_id: "02",
                 gift_name: 'slava'
-            })
+            }).then(
+                (await gift.findAll()).forEach(x=>console.log(x))
+            )
         })
         if (req.method !== 'POST') {
             return 'Server is running';
