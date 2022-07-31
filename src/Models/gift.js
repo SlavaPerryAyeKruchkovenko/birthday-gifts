@@ -1,5 +1,5 @@
 const { Model, DataTypes} = require('sequelize')
-const database = require('../database')
+const sequelize = require('../database')
 class Gift extends Model{}
 
 Gift.init({
@@ -12,7 +12,7 @@ Gift.init({
         allowNull: false,
     }
 },{
-    database,
+    sequelize,
     modelName: 'GIFTS'
 })
 
